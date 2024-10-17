@@ -3,6 +3,7 @@ criterion
 """
 
 import math
+import numpy as np
 
 
 def get_criterion_function(criterion):
@@ -49,12 +50,16 @@ def __entropy(labels):
     return result
 
 
+
+
 def __info_gain(y, l_y, r_y):
     """
     Calculate the info gain
 
     y, l_y, r_y: label array of father node, left child node, right child node
     """
+
+    # print(f'y = {y}')
     all_labels, left_labels, right_labels = __label_stat(y, l_y, r_y)
 
     ###########################################################################
@@ -70,6 +75,7 @@ def __info_gain(y, l_y, r_y):
     num_parent = sum(all_labels.values())
     num_left = sum(left_labels.values())
     num_right = sum(right_labels.values())
+
     info_gain = entropy_parent - num_left / num_parent * \
         entropy_left - num_right / num_parent * entropy_right
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -93,6 +99,9 @@ def __info_gain_ratio(y, l_y, r_y):
     num_parent = len(y.reshape(-1))
     num_left = len(l_y.reshape(-1))
     num_right = len(r_y.reshape(-1))
+
+    if num_left == 0 or num_right == 0:
+        return 0
 
     intrinsic_value = - num_left / num_parent * \
         math.log2(num_left / num_parent) - num_right / \

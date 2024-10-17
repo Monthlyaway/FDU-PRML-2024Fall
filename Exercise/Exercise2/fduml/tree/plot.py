@@ -50,7 +50,7 @@ def plotSubTree(clf, tmpNode, parentPt, ax, xOff, yOff, featNames, classNames):
     thresStr = 'threshold: ' + str(tmpNode.threshold)
     classStr = 'class: ' + str(tmpNode.value)
     if len(featNames) != 0 and tmpNode.feat_idx != None:
-        featStr = "feat：" + featNames[tmpNode.feat_idx]
+        featStr = "feat:" + featNames[tmpNode.feat_idx]
     if len(classNames) != 0 and tmpNode.value != None:
         classStr = 'class: ' + classNames[tmpNode.value]
 
