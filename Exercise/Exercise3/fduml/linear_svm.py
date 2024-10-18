@@ -87,8 +87,23 @@ def svm_loss_vectorized(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
-
+    N = X.shape[0]
+    D = X.shape[1]
+    C = W.shape[1]
+    
+    # Loss
+    loss += np.sum(X @ W)
+    loss -= C * np.sum(X * W[:, y].T)
+    loss += N * (C - 1)
+    loss /= N
+    loss += reg * np.sum(W * W)
+    
+    # dW
+    dW += np.sum(X, axis=0, keepdims=True).T @ np.ones((1, C))
+    dW -= C * X.T @ np.eye(C)[y, :]
+    dW /= N
+    dW += 2 * reg * W
+    
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
     #############################################################################
