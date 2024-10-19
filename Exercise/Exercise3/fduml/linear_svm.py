@@ -92,15 +92,17 @@ def svm_loss_vectorized(W, X, y, reg):
     C = W.shape[1]
     
     # Loss
-    loss += np.sum(X @ W)
-    loss -= C * np.sum(X * W[:, y].T)
-    loss += N * (C - 1)
+    tmp = X @ W - ((X @ W)[np.arange(N), y]).reshape(-1, 1) @ np.ones((1, C)) + np.ones((N, C)) - np.eye(C)[y, :]
+    loss += np.sum(tmp[tmp > 0])
     loss /= N
     loss += reg * np.sum(W * W)
     
     # dW
-    dW += np.sum(X, axis=0, keepdims=True).T @ np.ones((1, C))
-    dW -= C * X.T @ np.eye(C)[y, :]
+    dW += X.T @ np.where(tmp > 0, np.ones((N, C)), 0)
+    counts = np.sum(tmp > 0, axis=1)
+    multi = np.diag(counts)
+    # print(f'multi.shape = {multi.shape}, X.shape = {X.shape}')
+    dW -= (multi @ X).T @ np.eye(C)[y, :]
     dW /= N
     dW += 2 * reg * W
     
