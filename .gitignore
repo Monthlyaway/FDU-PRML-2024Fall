@@ -3,3 +3,6 @@
 .vscode
 __pycache__
 Exercise/Exercise4/embeddings.npy
+Exercise/Exercise4/pretrained_embeddings.npy
+Exercise/Exercise4/sgns.sogounews.bigram-char
+Exercise/Exercise4/.vector_cache/sgns.sogounews.bigram-char.pt
